@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Interior Budget Planner</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Home</a>
+        <h1>🏠 Home Interior Budget Planner</h1>
+
+        <form action="/generate-home" method="post" class="card">
+            <label>Total Budget (₹):</label>
+            <input type="number" name="total_budget" required>
+
+            <label>Number of Lights/Fixtures:</label>
+            <input type="number" name="num_lights" value="0">
+
+            <label>Number of Ceiling Fans:</label>
+            <input type="number" name="num_fans" value="0">
+
+            <label>Number of Furniture Pieces:</label>
+            <input type="number" name="num_furniture" value="0">
+
+            <label>Number of Dining Tables:</label>
+            <input type="number" name="num_dining_tables" value="0">
+
+            <label>Additional Requirements:</label>
+            <textarea name="additional_requirements" rows="3" placeholder="e.g., Modern style, neutral colors..."></textarea>
+
+            <button type="submit">Generate Recommendations</button>
+        </form>
+
+        {% if result %}
+            {% include "_result_display.html" %}
+        {% endif %}
+    </div>
+</body>
+</html>

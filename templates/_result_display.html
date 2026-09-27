@@ -1,0 +1,82 @@
+{% if result and result.get("error") %}
+    <div class="card error-card">
+        <h3>⚠️ Error</h3>
+        <p>{{ result["error"] }}</p>
+    </div>
+{% elif result %}
+    <div class="card">
+        <h3>📊 Budget Summary</h3>
+        <p><b>Total Budget:</b> ₹{{ result.get("total_budget", "N/A") }}</p>
+        <p><b>Remaining:</b> ₹{{ result.get("remaining_budget", "N/A") }}</p>
+    </div>
+
+    {% if result.get("outfit_analysis") %}
+    <div class="card">
+        <h3>👗 Outfit Analysis</h3>
+        <p><b>Colors:</b> {{ result["outfit_analysis"].get("colors", [])|join(", ") }}</p>
+        <p><b>Style:</b> {{ result["outfit_analysis"].get("style", "N/A") }}</p>
+        <p><b>Formality:</b> {{ result["outfit_analysis"].get("formality", "N/A") }}</p>
+    </div>
+    {% endif %}
+
+    {% for cat in result.get("budget_breakdown", []) %}
+    <div class="card">
+        <h3>{{ cat.get("category", "Category") }} — ₹{{ cat.get("allocation", 0) }}</h3>
+        {% for item in cat.get("items", []) %}
+            <div class="item">
+                <p><b>{{ item.get("name", "") }}</b> — ₹{{ item.get("estimated_price", 0) }} × {{ item.get("quantity", 0) }}</p>
+                <p class="desc">{{ item.get("description", "") }}</p>
+                {% if item.get("shopping_links") %}
+                    <div class="links">
+                        {% for platform, url in item["shopping_links"].items() %}
+                            <a href="{{ url }}" target="_blank" class="shop-link">{{ platform|capitalize }}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+    {% if result.get("jewelry_recommendations") %}
+    <div class="card">
+        <h3>💎 Jewelry Recommendations</h3>
+        {% for item in result["jewelry_recommendations"] %}
+            <div class="item">
+                <p><b>{{ item.get("item_type", "") }}</b> — ₹{{ item.get("estimated_price", 0) }}</p>
+                <p class="desc">{{ item.get("description", "") }}</p>
+                <p><b>Style:</b> {{ item.get("style", "") }}</p>
+                {% if item.get("shopping_links") %}
+                    <div class="links">
+                        {% for platform, url in item["shopping_links"].items() %}
+                            <a href="{{ url }}" target="_blank" class="shop-link">{{ platform|capitalize }}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if result.get("styling_tips") %}
+    <div class="card">
+        <h3>💡 Styling Tips</h3>
+        <ul>
+            {% for tip in result["styling_tips"] %}
+                <li>{{ tip }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if result.get("additional_suggestions") %}
+    <div class="card">
+        <h3>💡 Additional Suggestions</h3>
+        <ul>
+            {% for tip in result["additional_suggestions"] %}
+                <li>{{ tip }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+{% endif %}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jewelry Budget Planner</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Home</a>
+        <h1>💎 Jewelry Budget Planner</h1>
+
+        <form action="/generate-jewelry" method="post" enctype="multipart/form-data" class="card">
+            <label>Total Budget (₹):</label>
+            <input type="number" name="total_budget" required>
+
+            <label>Occasion:</label>
+            <select name="occasion" required>
+                <option value="Wedding">Wedding</option>
+                <option value="Birthday">Birthday</option>
+                <option value="Anniversary">Anniversary</option>
+                <option value="Party">Party</option>
+                <option value="Daily Wear">Daily Wear</option>
+            </select>
+
+            <label>Style Preferences (optional):</label>
+            <textarea name="preferences" rows="3" placeholder="e.g., Minimal, gold, traditional..."></textarea>
+
+            <label>Upload Outfit Image (optional):</label>
+            <input type="file" name="image" accept="image/*">
+
+            <button type="submit">Generate Recommendations</button>
+        </form>
+
+        {% if result %}
+            {% include "_result_display.html" %}
+        {% endif %}
+    </div>
+</body>
+</html>
